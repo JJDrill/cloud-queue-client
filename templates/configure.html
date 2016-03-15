@@ -1,0 +1,24 @@
+<div class="col-sm-3 col-md-2 sidebar">
+  <ul class="nav nav-pills nav-stacked">
+    <li ng-repeat="project in projects" role="presentation" class="btn-default" ui-sref="landing({testID: project.Name})">{{project.Name}}</li>
+  </ul>
+</div>
+
+<div class="col-sm-9 col-md-10">
+  <div ui-view="chart"></div> 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Panel title</h3>
+    </div>
+    <div class="panel-body">
+      <div class="pull-right ol-sm-3 col-md-2">
+        <h5>Edit Mode</h5>
+        <span class="bootstrap-switch bootstrap-switch-mini bootstrap-switch-container">
+          <input type="checkbox" name="my-checkbox" class="" data-on-text="Enabled" data-off-text="Disabled" unchecked>
+        </span>
+      </div>
+      Panel content
+    </div>
+  </div>
+
+</div>
