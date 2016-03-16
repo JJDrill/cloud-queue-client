@@ -22,6 +22,19 @@ function ProjectServices ($http) {
       })
     },
 
+    Add_New_Project: function(newProjectName){
+      var body = {name: newProjectName}
+      return $http.post(serverUrl + '/api/projects/add', body).then(function(result){
+        return result;
+      })
+    },
+
+    Delete_Project: function(projectName){
+      return $http.delete(serverUrl + '/api/projects/' + projectName).then(function(result){
+        return result;
+      })
+    }
+
   }
 }
 
@@ -32,7 +45,25 @@ function DatastoreServices ($http) {
 
     getDatastoreDetailList: function(project_id){
       return $http.get(serverUrl + '/api/stores/' + project_id)
-    }
+    },
+
+    Add_Datastore: function(projectId, newDatastoreName){
+      var body = {
+        project_group_id: projectId,
+        store_type: 'Queue',
+        data_store_name: newDatastoreName
+      }
+
+      return $http.post(serverUrl + '/api/stores', body).then(function(result){
+        return result;
+      })
+    },
+
+    Delete_Datastore: function(datastoreID){
+      return $http.delete(serverUrl + '/api/stores/' + datastoreID).then(function(result){
+        return result;
+      })
+    },
   }
 }
 

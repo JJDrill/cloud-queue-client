@@ -1,22 +1,14 @@
 angular.module('DataNexus')
   .controller('LandingController', LandingController)
   .controller('ConfigureController', ConfigureController)
+  .controller('ConfigureControllerProjects', ConfigureControllerProjects)
   .controller('ConfigureControllerDetails', ConfigureControllerDetails)
   .controller('SecurityController', SecurityController)
+  .controller('AdminController', AdminController)
   .controller('MonitorController', MonitorController);
 
 LandingController.$inject = ['$scope'];
 function LandingController($scope) {
-}
-
-
-ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
-function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
-
-  DatastoreServices.getDatastoreDetailList($stateParams.project).then( function(results){
-    // console.log('Loading datastores for ' + $stateParams.project + "...");
-    $scope.dsDetailList = results.data
-  })
 }
 
 
@@ -28,37 +20,63 @@ function ConfigureController($scope, $stateParams, ProjectServices, DatastoreSer
     // console.log("getting projects...");
     $scope.projects = results;
   })
+}
 
-  // $scope.getProjectDetailList = function(){
-    // console.log("Project name from state: ", $stateParams.project);
-    // var testProject = $stateParams.project
-    // $stateParams.project = "Project 1"
-    // console.log("testProject: ", $stateParams.project);
 
-    // DatastoreServices.getDatastoreDetailList().then(function(data){
-      // console.log(data)
-      // return data
-      // $stateParams.datasourceList = ["DS1", "DS2"]
-      // return $stateParams.datasourceList
-    // })
+ConfigureControllerProjects.$inject = ['$scope', '$stateParams', 'ProjectServices'];
+function ConfigureControllerProjects($scope, $stateParams, ProjectServices) {
 
-      // DatastoreServices.getDatastoreDetailList().then(function(datastoreList){
-        // $scope.datastoreList = datastoreList.data;
-        // console.log(datastoreList.data);
-        // return datastoreList.data
-        // $scope.$apply()
-      // })
-      // return $scope.storageList[$stateParams.project];
-    // else {
-      // return []
-    // }
-  // };
+  $scope.add_New_Project = function(){
+    ProjectServices.Add_New_Project($scope.newProjectName).then(function(result){
+      if (result.data === "Success") {
+        window.location.reload();
+      }
+    })
+  };
 
+  $scope.delete_Project = function(project_name){
+    ProjectServices.Delete_Project(project_name).then(function(){
+      window.location.reload();
+    })
+  };
+
+}
+
+
+ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
+function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
+
+  DatastoreServices.getDatastoreDetailList($stateParams.project).then( function(results){
+    // console.log('Loading datastores for ' + $stateParams.project + "...");
+    if ($stateParams.project != "") {
+      $scope.dsDetailList = results.data
+    }
+  })
+
+  $scope.add_New_Datastore = function(){
+    DatastoreServices.Add_Datastore($stateParams.project, $scope.newDatastoreName)
+    .then(function(result){
+      if (result.statusText === "OK") {
+        window.location.reload();
+      }
+    })
+  };
+
+  $scope.delete_Datastore = function(datastoreID){
+    DatastoreServices.Delete_Datastore(datastoreID).then(function(result){
+      window.location.reload();
+    })
+  };
 }
 
 
 SecurityController.$inject = ['$scope'];
 function SecurityController($scope) {
+}
+
+
+AdminController.$inject = ['$scope', 'MetricService', 'ProjectServices'];
+function AdminController($scope, MetricService, ProjectServices) {
 }
 
 

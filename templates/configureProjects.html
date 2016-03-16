@@ -1,9 +1,23 @@
 
-<!-- <div class="col-sm-3 col-md-2 sidebar"> -->
   <ul class="nav nav-pills nav-stacked">
-    <li ng-repeat="project in projects" role="presentation" class="btn-default">
-      <a href="/#/configure/{{project.Name}}">{{project.Name}}</a>
-    </li>
+    <div class="panel panel-default">
+
+
+      <form>
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="newProjectName" id="inputSuccess1" placeholder="New Project Name...">
+          <button ng-click="add_New_Project()" type="button" class="btn btn-primary">Add Project</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel panel-default">
+      <li ng-repeat="project in projects" role="presentation" class="btn-default">
+        <span>
+          <button ng-click="delete_Project(project.Name)" class="glyphicon glyphicon-remove-circle" type="button" name="button"></button>
+        <a href="/#/configure/{{project.Name}}">{{project.Name}}</a>
+      </span>
+      </li>
+    </div>
+
   </ul>
-  <br>
-<!-- </div> -->

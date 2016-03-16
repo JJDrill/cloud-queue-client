@@ -20,7 +20,7 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
           },
           "configureProjects@configure": {
             templateUrl: 'templates/configureProjects.html',
-            // controller: 'ConfigureController'
+            controller: 'ConfigureControllerProjects'
           },
           "configureDetails@configure": {
             templateUrl: 'templates/configureDetails.html',
@@ -51,6 +51,12 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
           controller: 'MonitorController'
         }
       }
+    })
+
+    .state('admin', {
+      templateUrl: 'templates/admin.html',
+      controller: 'AdminController',
+      url: '/admin'
     })
 
   });
