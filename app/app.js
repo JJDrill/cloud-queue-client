@@ -12,19 +12,21 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
     })
 
     .state('configure', {
+      url: '/configure/:project',
       views: {
-          "": {
+          '': {
             templateUrl: 'templates/configure.html',
-            controller: 'ConfigureController',
-            // url: '/configure'
+            controller: 'ConfigureController'
           },
-          "chart": {
-            template: "<h1>TEST!!!!</h1><chart_thing/>"
+          "configureProjects@configure": {
+            templateUrl: 'templates/configureProjects.html',
+            // controller: 'ConfigureController'
+          },
+          "configureDetails@configure": {
+            templateUrl: 'templates/configureDetails.html',
+            controller: 'ConfigureControllerDetails'
           }
-        },
-      // templateUrl: 'templates/configure.html',
-      controller: 'ConfigureController',
-      url: '/configure'
+        }
     })
 
     .state('security', {
@@ -37,8 +39,8 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
       url: '/monitor/:project',
       views: {
         '': {
-          templateUrl: 'templates/monitor.html'
-          // controller: 'MonitorController'
+          templateUrl: 'templates/monitor.html',
+          controller: 'MonitorController'
         },
         "monitorProjects@monitor": {
           templateUrl: "templates/monitorProjects.html",

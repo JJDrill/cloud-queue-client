@@ -1,33 +1,68 @@
 angular.module('DataNexus')
   .controller('LandingController', LandingController)
   .controller('ConfigureController', ConfigureController)
+  .controller('ConfigureControllerDetails', ConfigureControllerDetails)
   .controller('SecurityController', SecurityController)
   .controller('MonitorController', MonitorController);
 
 LandingController.$inject = ['$scope'];
-
 function LandingController($scope) {
 }
 
-ConfigureController.$inject = ['$scope', 'ProjectServices'];
 
-function ConfigureController($scope, ProjectServices) {
-  $("[name='my-checkbox']").bootstrapSwitch();
+ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
+function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
 
-  ProjectServices.Get_Projects().then(function(results){
-    $scope.projects = results;
-    // console.log($scope);
+  DatastoreServices.getDatastoreDetailList($stateParams.project).then( function(results){
+    // console.log('Loading datastores for ' + $stateParams.project + "...");
+    $scope.dsDetailList = results.data
   })
 }
 
-SecurityController.$inject = ['$scope'];
 
+ConfigureController.$inject = ['$scope', '$stateParams', 'ProjectServices', 'DatastoreServices'];
+function ConfigureController($scope, $stateParams, ProjectServices, DatastoreServices) {
+  $("[name='my-checkbox']").bootstrapSwitch();
+
+  ProjectServices.Get_Projects().then(function(results){
+    // console.log("getting projects...");
+    $scope.projects = results;
+  })
+
+  // $scope.getProjectDetailList = function(){
+    // console.log("Project name from state: ", $stateParams.project);
+    // var testProject = $stateParams.project
+    // $stateParams.project = "Project 1"
+    // console.log("testProject: ", $stateParams.project);
+
+    // DatastoreServices.getDatastoreDetailList().then(function(data){
+      // console.log(data)
+      // return data
+      // $stateParams.datasourceList = ["DS1", "DS2"]
+      // return $stateParams.datasourceList
+    // })
+
+      // DatastoreServices.getDatastoreDetailList().then(function(datastoreList){
+        // $scope.datastoreList = datastoreList.data;
+        // console.log(datastoreList.data);
+        // return datastoreList.data
+        // $scope.$apply()
+      // })
+      // return $scope.storageList[$stateParams.project];
+    // else {
+      // return []
+    // }
+  // };
+
+}
+
+
+SecurityController.$inject = ['$scope'];
 function SecurityController($scope) {
 }
 
 
 MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'ProjectServices'];
-
 function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
   $scope.storageList = {}
 
@@ -47,14 +82,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
                     }
 
       $scope.storageList[projectlist[i].Project_Name].push([tempObj])
-
-      // $scope.storageList[projectlist[i].Project_Name][projectlist[i].Name] =
-      //   {
-      //     Type: projectlist[i].Type_ID,
-      //     Metrics: []
-      //   }
     }
-    // console.log("storageList: ", $scope.storageList);
   })
 
   $scope.getSelectedProjectMetrics = function(){
@@ -87,6 +115,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
     // console.log("storageList: ", $scope.storageList);
     $scope.$apply()
   });
+
 
   ProjectServices.Get_Projects().then(function(results){
     $scope.projects = results;

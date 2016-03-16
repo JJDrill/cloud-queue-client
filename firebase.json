@@ -1,0 +1,9 @@
+{
+  "firebase": "cloudqueueclient",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

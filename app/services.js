@@ -1,32 +1,43 @@
 angular.module('DataNexus')
   .factory('MetricService', MetricService)
+  .factory('DatastoreServices', DatastoreServices)
   .factory('ProjectServices', ProjectServices);
 
-// var serverUrl = 'http://localhost:8080';
-var serverUrl = 'https://cloudqueue.herokuapp.com';
+var serverUrl = 'http://localhost:3000';
+// var serverUrl = 'https://cloudqueue.herokuapp.com';
 
 ProjectServices.$inject = ['$http']
-
 function ProjectServices ($http) {
   return {
 
     Get_Projects: function(){
-      return $http.get(serverUrl+'/api/projects').then(function(projects){
+      return $http.get(serverUrl + '/api/projects').then(function(projects){
         return projects.data;
       })
     },
 
     Get_Project_Datastores: function(){
-      return $http.get(serverUrl+'/api/stores').then(function(datastores){
+      return $http.get(serverUrl + '/api/stores').then(function(datastores){
         return datastores.data;
       })
-    }
+    },
 
   }
 }
 
-MetricService.$inject = ['$stateParams']
 
+DatastoreServices.$inject = ['$http']
+function DatastoreServices ($http) {
+  return {
+
+    getDatastoreDetailList: function(project_id){
+      return $http.get(serverUrl + '/api/stores/' + project_id)
+    }
+  }
+}
+
+
+MetricService.$inject = ['$stateParams']
 function MetricService ($stateParams) {
   var callbacks = []
   var socket = io(serverUrl+'/');
