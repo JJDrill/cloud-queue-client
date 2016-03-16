@@ -3,8 +3,8 @@ angular.module('DataNexus')
   .factory('DatastoreServices', DatastoreServices)
   .factory('ProjectServices', ProjectServices);
 
-var serverUrl = 'http://localhost:3000';
-// var serverUrl = 'https://cloudqueue.herokuapp.com';
+// var serverUrl = 'http://localhost:3000';
+var serverUrl = 'https://cloudqueue.herokuapp.com';
 
 ProjectServices.$inject = ['$http']
 function ProjectServices ($http) {
