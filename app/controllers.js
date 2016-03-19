@@ -1,14 +1,36 @@
 angular.module('DataNexus')
-  .controller('LandingController', LandingController)
+  .controller('SignupController', SignupController)
+  .controller('LoginController', LoginController)
   .controller('ConfigureController', ConfigureController)
   .controller('ConfigureControllerProjects', ConfigureControllerProjects)
   .controller('ConfigureControllerDetails', ConfigureControllerDetails)
-  .controller('SecurityController', SecurityController)
-  .controller('AdminController', AdminController)
   .controller('MonitorController', MonitorController);
 
-LandingController.$inject = ['$scope'];
-function LandingController($scope) {
+LoginController.$inject = ['$scope', '$location', 'AuthServices'];
+function LoginController($scope, $location, AuthServices) {
+
+  $scope.Login = function(){
+    AuthServices.Login($scope.username, $scope.password)
+    $location.path('/monitor/');
+  }
+
+  $scope.Logout = function(){
+    $location.path('/');
+  }
+
+}
+
+
+SignupController.$inject = ['$scope', '$location', 'AuthServices'];
+function SignupController($scope, $location, AuthServices) {
+
+  $scope.Signup = function(){
+    AuthServices.Signup($scope.newUsername, $scope.newPassword).then(function(result){
+      console.log(result);
+      $location.path('/monitor/');
+    })
+  }
+
 }
 
 
@@ -70,35 +92,21 @@ function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
 }
 
 
-SecurityController.$inject = ['$scope'];
-function SecurityController($scope) {
-}
-
-
-AdminController.$inject = ['$scope', 'MetricService', 'ProjectServices'];
-function AdminController($scope, MetricService, ProjectServices) {
-}
-
-
 MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'ProjectServices'];
 function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
   $scope.storageList = {}
 
   ProjectServices.Get_Project_Datastores().then(function(projectlist){
-
     for (var i = 0; i < projectlist.length; i++) {
-
       if ($scope.storageList[projectlist[i].Project_Name] === undefined) {
         $scope.storageList[projectlist[i].Project_Name] = []
       }
-
       var tempObj = {
                       key: [projectlist[i].Name],
                       values: [],
                       type: "area",
                       yAxis: 1
                     }
-
       $scope.storageList[projectlist[i].Project_Name].push([tempObj])
     }
   })
@@ -220,3 +228,28 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
 
 
 }
+
+
+
+
+// AdminController.$inject = ['$scope', 'PerformanceServices'];
+// function AdminController($scope, PerformanceServices) {
+//   var test1;
+//
+//   $scope.Start_Test = function(test_id){
+//     console.log("Starting test: ", test_id);
+//     var url = "http://localhost:3000/api/queues/1/dequeue"
+//
+//     test1 = setInterval(function () {
+//       PerformanceServices.Send_Generic_Get_Request(url).then(function(result){
+//         console.log("Test iteration...");
+//       })
+//     }, 2000)
+//   }
+//
+//   $scope.Stop_Test = function(test_id){
+//     console.log("Ending test: ", test_id);
+//     clearInterval(test1);
+//   }
+//
+// }

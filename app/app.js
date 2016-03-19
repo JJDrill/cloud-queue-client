@@ -2,13 +2,25 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
   .config(function($stateProvider, $urlRouterProvider){
 
     $urlRouterProvider.otherwise('/');
-
     $stateProvider
 
     .state('landing', {
-      templateUrl: 'templates/landing.html',
-      controller: 'LandingController',
-      url: '/'
+      url: '/',
+      views: {
+          "": {
+            templateUrl: 'templates/landing.html',
+          },
+          "navbarLoggedOut@landing": {
+            templateUrl: 'templates/navbarLoggedOut.html',
+            controller: 'LoginController'
+          }
+        }
+    })
+
+    .state('signup', {
+      templateUrl: 'templates/signup.html',
+      controller: 'SignupController',
+      url: '/signup'
     })
 
     .state('configure', {
@@ -17,6 +29,10 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
           '': {
             templateUrl: 'templates/configure.html',
             controller: 'ConfigureController'
+          },
+          "navbarLoggedIn@configure": {
+            templateUrl: 'templates/navbarLoggedIn.html',
+            controller: 'LoginController'
           },
           "configureProjects@configure": {
             templateUrl: 'templates/configureProjects.html',
@@ -29,18 +45,16 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
         }
     })
 
-    .state('security', {
-      templateUrl: 'templates/security.html',
-      controller: 'SecurityController',
-      url: '/security'
-    })
-
     .state('monitor', {
       url: '/monitor/:project',
       views: {
         '': {
           templateUrl: 'templates/monitor.html',
           controller: 'MonitorController'
+        },
+        "navbarLoggedIn@monitor": {
+          templateUrl: 'templates/navbarLoggedIn.html',
+          controller: 'LoginController'
         },
         "monitorProjects@monitor": {
           templateUrl: "templates/monitorProjects.html",
@@ -51,12 +65,6 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
           controller: 'MonitorController'
         }
       }
-    })
-
-    .state('admin', {
-      templateUrl: 'templates/admin.html',
-      controller: 'AdminController',
-      url: '/admin'
     })
 
   });

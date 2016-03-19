@@ -1,10 +1,52 @@
 angular.module('DataNexus')
+  .factory('AuthServices', AuthServices)
   .factory('MetricService', MetricService)
   .factory('DatastoreServices', DatastoreServices)
   .factory('ProjectServices', ProjectServices);
 
-// var serverUrl = 'http://localhost:3000';
-var serverUrl = 'https://cloudqueue.herokuapp.com';
+var serverUrl = 'http://localhost:3000';
+// var serverUrl = 'https://cloudqueue.herokuapp.com';
+
+// function getAPIHost() {
+//   if(window.location.hostname == 'localhost') {
+//     return 'http://localhost:3000';
+//   } else {
+//     return 'https://powerful-wave-3355.herokuapp.com';
+//   }
+// }
+
+AuthServices.$inject = ['$http']
+function AuthServices ($http) {
+  return {
+
+    Signup: function(user_name, password){
+      var body = {
+        name: user_name,
+        password: password
+      }
+      return $http.post(serverUrl + '/api/auth/signup', body).then(function(result){
+        console.log("services result: ", result);
+        return result;
+      })
+    },
+
+    Login: function(username, password){
+      var body = {
+        username: username,
+        password: password
+      }
+      // return $http.post(serverUrl + '/api/auth/login', body).then(function(result){
+      //   return result;
+      // })
+    },
+
+    Logout: function(){
+      return $http.get(serverUrl + '/api/auth/logout').then(function(result){
+        return result;
+      })
+    },
+  }
+}
 
 ProjectServices.$inject = ['$http']
 function ProjectServices ($http) {
@@ -42,6 +84,10 @@ function ProjectServices ($http) {
 DatastoreServices.$inject = ['$http']
 function DatastoreServices ($http) {
   return {
+
+    Get_Datastore_List: function(){
+      return $http.get(serverUrl + '/api/stores')
+    },
 
     getDatastoreDetailList: function(project_id){
       return $http.get(serverUrl + '/api/stores/' + project_id)
