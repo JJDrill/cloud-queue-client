@@ -1,8 +1,16 @@
-<div class="col-sm-9 col-md-10">
-  <div ng-repeat="storage in getSelectedProjectMetrics()">
-  <!-- <div ng-repeat="storage in storageList"> -->
-    <!-- <div ng-controller="MonitorController"> -->
-      <nvd3 options="options" data="storage"></nvd3>
-    <!-- </div> -->
+<div>
+  <div class="storageGraphList">
+    <div class="storageGraph" ng-repeat="storage in getSelectedProjectMetrics()">
+      <div class="row">
+        <div class="storageInfo">
+          <div class="form-group">
+            <label>{{storage.Name}}</label>
+          </div>
+        </div>
+        <div class="graphInfo">
+          <nvd3 options="options" data="storage"></nvd3>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

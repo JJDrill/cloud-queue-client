@@ -112,6 +112,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
   })
 
   $scope.getSelectedProjectMetrics = function(){
+    console.log($scope.storageList[$stateParams.project]);
     return $scope.storageList[$stateParams.project];
   };
 
@@ -197,6 +198,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
       chart: {
           type: 'multiChart',
           height: 300,
+          width: 400,
           margin : {
               top: 30,
               right: 60,

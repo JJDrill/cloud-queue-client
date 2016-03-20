@@ -1,0 +1,10 @@
+.storageGraphList{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.storageGraph {
+  /*width: 400px;*/
+  /*background-color: white;*/
+}

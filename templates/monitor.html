@@ -1,3 +1,5 @@
-<div class="col-sm-12 col-md-12 pull-right" ui-view="navbarLoggedIn"></div>
-<div ui-view="monitorProjects"></div>
-<div ui-view="monitorGraphs"></div>
+<link rel="stylesheet" href="./css/monitor.css">
+
+<div class="container-fluid" ui-view="navbarLoggedIn"></div>
+<div class="col-sm-3 col-md-2 sidebar" ui-view="monitorProjects"></div>
+<div class="col-sm-9 col-md-10" ui-view="monitorGraphs"></div>
