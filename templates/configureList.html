@@ -1,0 +1,16 @@
+<div class="panel panel-default">
+  <form>
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model="newDatastoreName" id="inputSuccess1" placeholder="New Datasource Name...">
+      <button ng-click="add_New_Datastore()" type="button" class="btn btn-primary">Add Datasource</button>
+    </div>
+  </form>
+</div>
+
+<div ng-repeat="data in dsDetailList">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 ng-click="open_Datastore_Details()" class="panel-title">{{data.Name}}</h3>
+    </div>
+  </div>
+</div>

@@ -38,9 +38,14 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
             templateUrl: 'templates/configureProjects.html',
             controller: 'ConfigureControllerProjects'
           },
+          "configureList@configure": {
+            templateUrl: 'templates/configureList.html',
+            controller: 'ConfigureControllerList'
+          },
           "configureDetails@configure": {
             templateUrl: 'templates/configureDetails.html',
-            controller: 'ConfigureControllerDetails'
+            controller: 'ConfigureControllerList'
+            // controller: 'ConfigureControllerDetails'
           }
         }
     })

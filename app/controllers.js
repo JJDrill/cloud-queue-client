@@ -3,6 +3,7 @@ angular.module('DataNexus')
   .controller('LoginController', LoginController)
   .controller('ConfigureController', ConfigureController)
   .controller('ConfigureControllerProjects', ConfigureControllerProjects)
+  .controller('ConfigureControllerList', ConfigureControllerList)
   .controller('ConfigureControllerDetails', ConfigureControllerDetails)
   .controller('MonitorController', MonitorController);
 
@@ -26,7 +27,6 @@ function SignupController($scope, $location, AuthServices) {
 
   $scope.Signup = function(){
     AuthServices.Signup($scope.newUsername, $scope.newPassword).then(function(result){
-      console.log(result);
       $location.path('/monitor/');
     })
   }
@@ -39,7 +39,6 @@ function ConfigureController($scope, $stateParams, ProjectServices, DatastoreSer
   $("[name='my-checkbox']").bootstrapSwitch();
 
   ProjectServices.Get_Projects().then(function(results){
-    // console.log("getting projects...");
     $scope.projects = results;
   })
 }
@@ -65,13 +64,16 @@ function ConfigureControllerProjects($scope, $stateParams, ProjectServices) {
 }
 
 
-ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
-function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
+ConfigureControllerList.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
+function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
+  $scope.showStoreList = true
+  $scope.showStoreDetails = true
 
   DatastoreServices.getDatastoreDetailList($stateParams.project).then( function(results){
-    // console.log('Loading datastores for ' + $stateParams.project + "...");
     if ($stateParams.project != "") {
       $scope.dsDetailList = results.data
+      $scope.showStoreList = true
+      $scope.showStoreDetails = true
     }
   })
 
@@ -83,6 +85,33 @@ function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
       }
     })
   };
+
+  $scope.open_Datastore_Details = function(){
+    $scope.showStoreList = true
+    $scope.showStoreDetails = true
+  }
+
+  $scope.close_Datastore_Details = function(){
+    $scope.showStoreList = true
+    $scope.showStoreDetails = true
+  }
+
+  $scope.delete_Datastore = function(datastoreID){
+    DatastoreServices.Delete_Datastore(datastoreID).then(function(result){
+      window.location.reload();
+    })
+  };
+}
+
+
+ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
+function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
+
+  $scope.close_Datastore_Details = function(){
+    console.log("3", $scope.showStoreList);
+    $scope.showStoreList = true
+    $scope.showStoreDetails = false
+  }
 
   $scope.delete_Datastore = function(datastoreID){
     DatastoreServices.Delete_Datastore(datastoreID).then(function(result){
@@ -112,7 +141,6 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
   })
 
   $scope.getSelectedProjectMetrics = function(){
-    console.log($scope.storageList[$stateParams.project]);
     return $scope.storageList[$stateParams.project];
   };
 
