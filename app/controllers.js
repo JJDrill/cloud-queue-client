@@ -66,14 +66,14 @@ function ConfigureControllerProjects($scope, $stateParams, ProjectServices) {
 
 ConfigureControllerList.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
 function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
-  $scope.showStoreList = true
-  $scope.showStoreDetails = true
+  // $scope.showStoreList = true
+  // $scope.showStoreDetails = false
 
   DatastoreServices.getDatastoreDetailList($stateParams.project).then( function(results){
     if ($stateParams.project != "") {
       $scope.dsDetailList = results.data
-      $scope.showStoreList = true
-      $scope.showStoreDetails = true
+      // $scope.showStoreList = true
+      // $scope.showStoreDetails = false
     }
   })
 
@@ -86,15 +86,15 @@ function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
     })
   };
 
-  $scope.open_Datastore_Details = function(){
-    $scope.showStoreList = true
-    $scope.showStoreDetails = true
-  }
+  // $scope.open_Datastore_Details = function(){
+  //   $scope.showStoreList = false
+  //   $scope.showStoreDetails = true
+  // }
 
-  $scope.close_Datastore_Details = function(){
-    $scope.showStoreList = true
-    $scope.showStoreDetails = true
-  }
+  // $scope.close_Datastore_Details = function(){
+  //   $scope.showStoreList = true
+  //   $scope.showStoreDetails = false
+  // }
 
   $scope.delete_Datastore = function(datastoreID){
     DatastoreServices.Delete_Datastore(datastoreID).then(function(result){

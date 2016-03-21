@@ -1,34 +1,36 @@
-<div class="panel-body">
-  <a ng-click="close_Datastore_Details()">Return to datastore list...</a>
-</div>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3
-      class="panel-title">{{data.Name}}
-    </h3>
-  </div>
-  <div class="panel-body">
-    <span class="pull-right">
-      <button class="btn-group btn-danger btn-group-xs" ng-click="delete_Datastore(data.id)" type="button" name="buttonDelete">Delete</button>
-    </span>
-    <!-- <div class="pull-right ol-sm-3 col-md-2">
+<div ng-show="showStoreDetails">
+    <div class="panel-body">
+      <a ng-click="close_Datastore_Details()">Return to datastore list...</a>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3
+        class="panel-title">{{data.Name}}
+      </h3>
+    </div>
+    <div class="panel-body">
+      <span class="pull-right">
+        <button class="btn-group btn-danger btn-group-xs" ng-click="delete_Datastore(data.id)" type="button" name="buttonDelete">Delete</button>
+      </span>
+      <!-- <div class="pull-right ol-sm-3 col-md-2">
       <h5>Edit Mode</h5>
       <span class="bootstrap-switch bootstrap-switch-mini bootstrap-switch-container">
-        <input type="checkbox" name="my-checkbox" class="" data-on-text="Enabled" data-off-text="Disabled" unchecked>
-      </span>
-    </div> -->
-    <p>
-      ID: {{data.id}}
-    </p>
-    <p>
-      Type: {{data.Type_ID}}
-    </p>
-    <div ng-repeat="action in data.Actions">
-      <div class="panel-body">
-        <p>Name: {{action.Name}}</p>
-        <p>Verb: {{action.Verb}}</p>
-        <p>{{action.Url}}</p>
-      </div>
+      <input type="checkbox" name="my-checkbox" class="" data-on-text="Enabled" data-off-text="Disabled" unchecked>
+    </span>
+  </div> -->
+  <p>
+    ID: {{data.id}}
+  </p>
+  <p>
+    Type: {{data.Type_ID}}
+  </p>
+  <div ng-repeat="action in data.Actions">
+    <div class="panel-body">
+      <p>Name: {{action.Name}}</p>
+      <p>Verb: {{action.Verb}}</p>
+      <p>{{action.Url}}</p>
     </div>
+  </div>
+  </div>
   </div>
 </div>
