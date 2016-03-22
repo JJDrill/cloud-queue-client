@@ -5,7 +5,10 @@ angular.module('DataNexus')
   .controller('ConfigureControllerProjects', ConfigureControllerProjects)
   .controller('ConfigureControllerList', ConfigureControllerList)
   .controller('ConfigureControllerDetails', ConfigureControllerDetails)
-  .controller('MonitorController', MonitorController);
+  .controller('MonitorController', MonitorController)
+  .controller('AlertsController', AlertsController)
+  .controller('alertListController', alertListController);
+
 
 function Is_Authenticated(){
   if (localStorage.token === "" || localStorage.token === undefined) {
@@ -86,14 +89,10 @@ function ConfigureControllerProjects($scope, $stateParams, ProjectServices) {
 
 ConfigureControllerList.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
 function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
-  // $scope.showStoreList = true
-  // $scope.showStoreDetails = false
 
   DatastoreServices.getDatastoreDetailList($stateParams.project).then( function(results){
     if ($stateParams.project != "") {
       $scope.dsDetailList = results.data
-      // $scope.showStoreList = true
-      // $scope.showStoreDetails = false
     }
   })
 
@@ -135,7 +134,7 @@ function MonitorController($scope, $stateParams, $rootScope, MetricService, Proj
   $scope.storageList = {}
   $rootScope.alerts = []
 
-  ProjectServices.Get_Project_Datastores().then(function(projectlist){
+  ProjectServices.Get_All_Datastores().then(function(projectlist){
     for (var i = 0; i < projectlist.length; i++) {
       if ($scope.storageList[projectlist[i].Project_Name] === undefined) {
         $scope.storageList[projectlist[i].Project_Name] = []
@@ -268,31 +267,65 @@ function MonitorController($scope, $stateParams, $rootScope, MetricService, Proj
           // }
       }
   };
-
-
 }
 
 
+AlertsController.$inject = ['$scope', 'ProjectServices'];
+function AlertsController($scope, ProjectServices) {
+
+  ProjectServices.Get_Projects().then(function(results){
+    $scope.projects = results;
+  })
+}
 
 
-// AdminController.$inject = ['$scope', 'PerformanceServices'];
-// function AdminController($scope, PerformanceServices) {
-//   var test1;
-//
-//   $scope.Start_Test = function(test_id){
-//     console.log("Starting test: ", test_id);
-//     var url = "http://localhost:3000/api/queues/1/dequeue"
-//
-//     test1 = setInterval(function () {
-//       PerformanceServices.Send_Generic_Get_Request(url).then(function(result){
-//         console.log("Test iteration...");
-//       })
-//     }, 2000)
-//   }
-//
-//   $scope.Stop_Test = function(test_id){
-//     console.log("Ending test: ", test_id);
-//     clearInterval(test1);
-//   }
-//
-// }
+alertListController.$inject = ['$scope', '$stateParams', 'AlertServices', 'ProjectServices'];
+function alertListController($scope, $stateParams, AlertServices, ProjectServices) {
+
+  ProjectServices.Get_Project_Datastores($stateParams.project).then(function(storeList){
+    if ($stateParams.project != "" && $stateParams.project != undefined) {
+      $scope.Store_List = storeList;
+    }
+  })
+
+  AlertServices.Get_Alert_Comparer_List().then(function(comparerList){
+    $scope.Comparer_List = comparerList;
+  })
+
+  AlertServices.Get_Alerts_By_Project($stateParams.project).then(function(alertList){
+    if ($stateParams.project != "" && $stateParams.project != undefined) {
+      $scope.Alert_List = alertList;
+    }
+  })
+
+  $scope.add_New_Alert = function(){
+    if ($scope.selectDatastore === undefined) {
+      console.log("Data store is required.");
+      return;
+    } else if ($scope.newAlertName === undefined) {
+      console.log("Alert name is required.");
+      return;
+    } else if ($scope.selectedComparer === undefined) {
+      console.log("An alert comparer is required.");
+      return;
+    }else if ($scope.newAlertValue === undefined) {
+      console.log("Alert value is required.");
+      return;
+    }
+
+    var alert_info = {
+      Datastore_ID: $scope.selectDatastore,
+      Alert_Name: $scope.newAlertName,
+      Alert_Comparer: $scope.selectedComparer,
+      Alert_Value: $scope.newAlertValue
+    }
+    AlertServices.Add_Alert(alert_info);
+    window.location.reload();
+  }
+
+  $scope.delete_Alert = function(alert_id){
+    AlertServices.Delete_Alert(alert_id);
+    window.location.reload();
+  }
+
+}

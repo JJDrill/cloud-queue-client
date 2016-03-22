@@ -2,6 +2,7 @@ angular.module('DataNexus')
   .factory('AuthServices', AuthServices)
   .factory('MetricService', MetricService)
   .factory('DatastoreServices', DatastoreServices)
+  .factory('AlertServices', AlertServices)
   .factory('ProjectServices', ProjectServices);
 
 function getAPIHost() {
@@ -17,7 +18,6 @@ function AuthServices ($http) {
   return {
 
     Signup: function(user_name, password, phone_number, receiveSMS){
-      console.log(receiveSMS);
       var body = {
         name: user_name,
         password: password,
@@ -63,8 +63,14 @@ function ProjectServices ($http) {
       }
     },
 
-    Get_Project_Datastores: function(){
+    Get_All_Datastores: function(){
       return $http.get(getAPIHost() + '/api/stores').then(function(datastores){
+        return datastores.data;
+      })
+    },
+
+    Get_Project_Datastores: function(project_id){
+      return $http.get(getAPIHost() + '/api/stores/' + project_id).then(function(datastores){
         return datastores.data;
       })
     },
@@ -118,6 +124,44 @@ function DatastoreServices ($http) {
         return result;
       })
     },
+  }
+}
+
+
+AlertServices.$inject = ['$http']
+function AlertServices ($http) {
+  return {
+
+    Get_Alerts_By_Project: function(project_id){
+      return $http.get(getAPIHost() + '/api/alerts/byproject/' + project_id).then(function(result){
+        return result.data;
+      })
+    },
+
+    Get_Alert_Comparer_List: function(){
+      return $http.get(getAPIHost() + '/api/alerts/comparers/list').then(function(result){
+        return result.data;
+      })
+    },
+
+    Add_Alert: function(alert_info){
+      var body = {
+        store_id: alert_info.Datastore_ID,
+        name: alert_info.Alert_Name,
+        comparer: alert_info.Alert_Comparer,
+        value: alert_info.Alert_Value
+      }
+      return $http.post(getAPIHost() + '/api/alerts/', body).then(function(result){
+        return result.data;
+      })
+    },
+
+    Delete_Alert: function(alert_id){
+      return $http.delete(getAPIHost() + '/api/alerts/' + alert_id).then(function(result){
+        return result.data;
+      })
+    }
+
   }
 }
 

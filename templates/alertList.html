@@ -1,0 +1,36 @@
+<form>
+  <div class="form-group">
+    <h4>Add a New Alert
+      <br>
+      <small>For example: When a datastore is greater than a value of 20.</small>
+    </h4>
+    <select ng-model="selectDatastore"
+            ng-options="store.id as store.Name for store in Store_List">
+    </select>
+    <input type="text" class="form-control" ng-model="newAlertName" placeholder="New Alert Name...">
+    <select ng-model="selectedComparer"
+            ng-options="comparer.Comparer as comparer.Comparer for comparer in Comparer_List">
+    </select>
+    <input type="text" class="form-control" ng-model="newAlertValue" placeholder="New Alert Value...">
+    <button ng-click="add_New_Alert()" type="button" class="btn btn-primary">Add Alert</button>
+  </div>
+</form>
+
+<div ng-repeat="alert in Alert_List">
+  <div class="panel panel-default">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3
+          class="panel-title">{{alert.Project_Name}}
+        </h3>
+        <p>{{alert.Store_Name}}</p>
+        <p>Alert Name: {{alert.Name}}</p>
+        <p>Alert ID: {{alert.Alert_ID}}</p>
+        <p>Comparer: {{alert.Comparer}}</p>
+        <p>Value: {{alert.Value}}</p>
+        <p>Enabled: {{alert.Enabled}}</p>
+        <button ng-click="delete_Alert(alert.Alert_ID)" class="btn-group btn-danger btn-group-xs" type="button" name="button">Delete Alert</button>
+      </div>
+    </div>
+  </div>
+</div>

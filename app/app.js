@@ -72,4 +72,26 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
       }
     })
 
+    .state('alerts', {
+      url: '/alerts/:project',
+      views: {
+        '': {
+          templateUrl: 'templates/alerts.html',
+          controller: 'AlertsController'
+        },
+        "navbarLoggedIn@alerts": {
+          templateUrl: 'templates/navbarLoggedIn.html',
+          controller: 'LoginController'
+        },
+        "alertProjects@alerts": {
+          templateUrl: "templates/alertProjects.html",
+          // controller: 'MonitorController'
+        },
+        "alertList@alerts": {
+          templateUrl: "templates/alertList.html",
+          controller: 'alertListController'
+        }
+      }
+    })
+
   });
