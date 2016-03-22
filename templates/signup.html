@@ -1,12 +1,22 @@
-<!-- <form class="form" action="/auth/signup" method="post"> -->
-<form class="form" method="post">
-  <div class="form-group">
-    <label for="email">User Name</label>
-    <input ng-model="newUsername" type="text" class="form-control" name="email" value="">
-  </div>
-  <div class="form-group">
-    <label for="email">Password</label>
-    <input ng-model="newPassword" type="password" class="form-control" name="password" value="">
-  </div>
-  <button ng-click="Signup()" class="btn btn-primary" type="submit" name="button">Sign Up</button>
-</form>
+<div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+  <form class="form" method="post">
+    <div class="form-group">
+      <label for="username">User Name</label>
+      <input ng-model="newUsername" type="text" class="form-control" name="username" value="">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input ng-model="newPassword" type="password" class="form-control" name="password" value="">
+    </div>
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number</label>
+      <input ng-model="newPhoneNumber" type="text" class="form-control" name="phoneNumber" value="">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input ng-model="receiveSMS" ng-init="receiveSMS=true" type="checkbox" checked="checked"> Receive SMS Alerts?
+      </label>
+    </div>
+    <button ng-click="Signup()" class="btn btn-primary" type="submit" name="button">Sign Up</button>
+  </form>
+</div>

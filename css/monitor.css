@@ -8,3 +8,9 @@
   /*width: 400px;*/
   /*background-color: white;*/
 }
+
+.dropdown-menu {
+    width: 300px !important;
+    height: 400px !important;
+    text-align: center;
+}

@@ -16,10 +16,13 @@ AuthServices.$inject = ['$http']
 function AuthServices ($http) {
   return {
 
-    Signup: function(user_name, password){
+    Signup: function(user_name, password, phone_number, receiveSMS){
+      console.log(receiveSMS);
       var body = {
         name: user_name,
-        password: password
+        password: password,
+        phone_number: phone_number,
+        receiveSMS: receiveSMS
       }
       return $http.post(getAPIHost() + '/api/auth/signup', body).then(function(result){
         return result;
@@ -31,9 +34,11 @@ function AuthServices ($http) {
         username: username,
         password: password
       }
-      // return $http.post(getAPIHost() + '/api/auth/login', body).then(function(result){
-      //   return result;
-      // })
+      return $http.post(getAPIHost() + '/api/auth/login', body).then(function(result){
+        return result
+      }).catch(function(err){
+        return err
+      })
     },
 
     Logout: function(){
@@ -49,9 +54,13 @@ function ProjectServices ($http) {
   return {
 
     Get_Projects: function(){
-      return $http.get(getAPIHost() + '/api/projects').then(function(projects){
-        return projects.data;
-      })
+      if (Is_Authenticated()) {
+        return $http.get(getAPIHost() + '/api/projects').then(function(projects){
+          return projects.data;
+        })
+      } else {
+
+      }
     },
 
     Get_Project_Datastores: function(){
@@ -115,22 +124,15 @@ function DatastoreServices ($http) {
 
 MetricService.$inject = ['$stateParams']
 function MetricService ($stateParams) {
-  var callbacks = []
+  var callback
   var socket = io(getAPIHost() + '/');
 
   socket.on('metrics', function (data) {
-    callbacks.forEach(function (callback) {
-      // console.log(data);
-      callback(data)
-    })
-    // console.log('disconnecting...');
-    // socket.disconnect();
-    // socket.io.close();
+    callback (data)
   })
   return {
-    on: function (callback) {
-      callbacks.push(callback)
+    on: function (cb) {
+      callback = cb
     }
   }
-
 }

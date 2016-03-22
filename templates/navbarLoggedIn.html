@@ -20,6 +20,15 @@
         <!-- <li><a href="/#/security">Security</a></li> -->
       </ul>
       <div class="pull-right">
+        <div class="btn-group">
+          <button class="btn btn-default btn-xs dropdown-toggle glyphicon glyphicon-bell" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li><a ng-click="Clear_Alerts()"><h4>Clear All Alerts</h4></a></li>
+            <li role="separator" class="divider"></li>
+            <li ng-repeat="alert in alerts track by $index">{{alert}}</li>
+          </ul>
+        </div>
         <button ng-click="Logout()" type="submit" class="btn btn-default btn-xs">Logout</button>
       </div>
     </div><!-- /.navbar-collapse -->

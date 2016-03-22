@@ -7,16 +7,35 @@ angular.module('DataNexus')
   .controller('ConfigureControllerDetails', ConfigureControllerDetails)
   .controller('MonitorController', MonitorController);
 
-LoginController.$inject = ['$scope', '$location', 'AuthServices'];
-function LoginController($scope, $location, AuthServices) {
+function Is_Authenticated(){
+  if (localStorage.token === "" || localStorage.token === undefined) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+LoginController.$inject = ['$rootScope', '$scope', '$location', 'AuthServices'];
+function LoginController($rootScope, $scope, $location, AuthServices) {
 
   $scope.Login = function(){
-    AuthServices.Login($scope.username, $scope.password)
-    $location.path('/monitor/');
+    AuthServices.Login($scope.username, $scope.password).then(function(result){
+      if (result.status != 200) {
+        // TODO: throw an UI alert here.
+      } else {
+        localStorage.token = result.data.token
+        $location.path('/monitor/');
+      }
+    })
   }
 
   $scope.Logout = function(){
+    localStorage.token = ""
     $location.path('/');
+  }
+
+  $scope.Clear_Alerts = function(){
+    $rootScope.alerts = []
   }
 
 }
@@ -26,8 +45,9 @@ SignupController.$inject = ['$scope', '$location', 'AuthServices'];
 function SignupController($scope, $location, AuthServices) {
 
   $scope.Signup = function(){
-    AuthServices.Signup($scope.newUsername, $scope.newPassword).then(function(result){
-      $location.path('/monitor/');
+    AuthServices.Signup($scope.newUsername, $scope.newPassword, $scope.newPhoneNumber, $scope.receiveSMS)
+    .then(function(result){
+      $location.path('/');
     })
   }
 
@@ -86,16 +106,6 @@ function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
     })
   };
 
-  // $scope.open_Datastore_Details = function(){
-  //   $scope.showStoreList = false
-  //   $scope.showStoreDetails = true
-  // }
-
-  // $scope.close_Datastore_Details = function(){
-  //   $scope.showStoreList = true
-  //   $scope.showStoreDetails = false
-  // }
-
   $scope.delete_Datastore = function(datastoreID){
     DatastoreServices.Delete_Datastore(datastoreID).then(function(result){
       window.location.reload();
@@ -108,7 +118,6 @@ ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServic
 function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
 
   $scope.close_Datastore_Details = function(){
-    console.log("3", $scope.showStoreList);
     $scope.showStoreList = true
     $scope.showStoreDetails = false
   }
@@ -121,9 +130,10 @@ function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
 }
 
 
-MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'ProjectServices'];
-function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
+MonitorController.$inject = [ '$scope', '$stateParams', '$rootScope', 'MetricService', 'ProjectServices'];
+function MonitorController($scope, $stateParams, $rootScope, MetricService, ProjectServices) {
   $scope.storageList = {}
+  $rootScope.alerts = []
 
   ProjectServices.Get_Project_Datastores().then(function(projectlist){
     for (var i = 0; i < projectlist.length; i++) {
@@ -161,13 +171,16 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
       }
 
       for (var i = 0; i < $scope.storageList[dataStoreProject].length; i++) {
-
         if ($scope.storageList[dataStoreProject][i][0].key == dataStoreKey) {
           $scope.storageList[dataStoreProject][i][0].values = $scope.storageList[dataStoreProject][i][0].values.concat(dataStoreMetrics)
         }
       }
     }
-    // console.log("storageList: ", $scope.storageList);
+
+    // Throw any alerts
+    // for (var i = 0; i < data.Alerts.length; i++) {
+    //   $rootScope.alerts.push(data.Alerts[i])
+    // }
     $scope.$apply()
   });
 
