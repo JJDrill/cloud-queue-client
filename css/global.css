@@ -1,0 +1,11 @@
+.projectListItem {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 2px;
+  margin-bottom: 5px;
+  list-style-type: none;
+}
+
+.projectListItemText {
+  padding-left: 5px;
+}

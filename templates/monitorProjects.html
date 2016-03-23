@@ -1,8 +1,9 @@
 <div>
   <ul class="nav nav-pills nav-stacked">
-    <li ng-repeat="project in projects" role="presentation" class="btn-default">
-      <a href="#/monitor/{{project.Name}}">{{project.Name}}</a>
+    <li ng-repeat="project in projects" role="presentation" class="btn-default projectListItem">
+      <span>
+        <a class="projectListItemText" href="/#/monitor/{{project.Name}}">{{project.Name}}</a>
+      </span>
     </li>
   </ul>
-  <br>
 </div>

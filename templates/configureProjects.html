@@ -5,12 +5,13 @@
   </div>
 </form>
 
-<div class="">
+<div>
   <ul class="nav nav-pills nav-stacked">
-    <li ng-repeat="project in projects" role="presentation" class="btn-default">
-      <span>
-        <button ng-click="delete_Project(project.Name)" class="glyphicon glyphicon-remove-circle" type="button" name="button"></button>
-        <a href="/#/configure/{{project.Name}}">{{project.Name}}</a>
+    <li ng-repeat="project in projects" role="presentation" class="btn-default projectListItem">
+      <span class="projectListItem">
+        <button ng-bootbox-confirm="Are you sure you want to delete the project '{{project.Name}}'?" ng-bootbox-confirm-action="delete_Project(project.Name)"
+        class="btn-danger btn-group-xs glyphicon glyphicon-remove-circle" type="button" name="button"></button>
+        <a class="projectListItemText" href="/#/configure/{{project.Name}}">{{project.Name}}</a>
       </span>
     </li>
   </ul>

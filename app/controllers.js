@@ -4,7 +4,7 @@ angular.module('DataNexus')
   .controller('ConfigureController', ConfigureController)
   .controller('ConfigureControllerProjects', ConfigureControllerProjects)
   .controller('ConfigureControllerList', ConfigureControllerList)
-  .controller('ConfigureControllerDetails', ConfigureControllerDetails)
+  // .controller('ConfigureControllerDetails', ConfigureControllerDetails)
   .controller('MonitorController', MonitorController)
   .controller('AlertsController', AlertsController)
   .controller('alertListController', alertListController);
@@ -110,27 +110,27 @@ function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
   };
 
   $scope.delete_Datastore = function(datastoreID){
-    DatastoreServices.Delete_Datastore(datastoreID).then(function(result){
+    DatastoreServices.Delete_Datastore(datastoreID).then( function(){
       window.location.reload();
     })
   };
 }
 
 
-ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
-function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
-
-  $scope.close_Datastore_Details = function(){
-    $scope.showStoreList = true
-    $scope.showStoreDetails = false
-  }
-
-  $scope.delete_Datastore = function(datastoreID){
-    DatastoreServices.Delete_Datastore(datastoreID).then(function(result){
-      window.location.reload();
-    })
-  };
-}
+// ConfigureControllerDetails.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
+// function ConfigureControllerDetails($scope, $stateParams, DatastoreServices) {
+//
+//   $scope.close_Datastore_Details = function(){
+//     $scope.showStoreList = true
+//     $scope.showStoreDetails = false
+//   }
+//
+//   $scope.delete_Datastore = function(datastoreID){
+//     DatastoreServices.Delete_Datastore(datastoreID).then(function(result){
+//       window.location.reload();
+//     })
+//   };
+// }
 
 
 MonitorController.$inject = [ '$scope', '$stateParams', '$rootScope', 'MetricService', 'ProjectServices'];

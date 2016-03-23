@@ -29,7 +29,7 @@
         <p>Comparer: {{alert.Comparer}}</p>
         <p>Value: {{alert.Value}}</p>
         <p>Enabled: {{alert.Enabled}}</p>
-        <button ng-click="delete_Alert(alert.Alert_ID)" class="btn-group btn-danger btn-group-xs" type="button" name="button">Delete Alert</button>
+        <button ng-bootbox-confirm="Are you sure you want to delete the '{{alert.Name}}' alert?" ng-bootbox-confirm-action="delete_Alert(alert.Alert_ID)" class="btn-group btn-danger btn-group-xs" type="button" name="button">Delete Alert</button>
       </div>
     </div>
   </div>

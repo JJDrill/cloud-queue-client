@@ -19,7 +19,7 @@
       </div>
       <div class="panel-body">
         <span class="pull-right">
-          <button class="btn-group btn-danger btn-group-xs" ng-click="delete_Datastore(data.id)" type="button" name="buttonDelete">Delete</button>
+          <button class="btn-group btn-danger btn-group-xs" ng-bootbox-confirm="Are you sure you want to delete the '{{data.Name}}' datasource?" ng-bootbox-confirm-action="delete_Datastore(data.id)" type="button" name="buttonDelete">Delete</button>
         </span>
         <p>
           ID: {{data.id}}

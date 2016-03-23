@@ -1,4 +1,4 @@
-angular.module('DataNexus', ['ui.router', 'nvd3'])
+angular.module('DataNexus', ['ui.router', 'nvd3', 'ngBootbox'])
   .config(function($stateProvider, $urlRouterProvider){
 
     $urlRouterProvider.otherwise('/');
@@ -42,11 +42,11 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
             templateUrl: 'templates/configureList.html',
             controller: 'ConfigureControllerList'
           },
-          "configureDetails@configure": {
-            templateUrl: 'templates/configureDetails.html',
-            controller: 'ConfigureControllerList'
-            // controller: 'ConfigureControllerDetails'
-          }
+          // "configureDetails@configure": {
+          //   templateUrl: 'templates/configureDetails.html',
+          //   controller: 'ConfigureControllerList'
+          //   // controller: 'ConfigureControllerDetails'
+          // }
         }
     })
 
