@@ -96,6 +96,10 @@ function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
     }
   })
 
+  $scope.show_Add_New_Source = function(){
+    return $stateParams.project;
+  }
+
   $scope.add_New_Datastore = function(){
     DatastoreServices.Add_Datastore($stateParams.project, $scope.newDatastoreName)
     .then(function(result){
@@ -297,6 +301,10 @@ function alertListController($scope, $stateParams, AlertServices, ProjectService
       $scope.Alert_List = alertList;
     }
   })
+
+  $scope.show_Add_New_Alert = function(){
+    return $stateParams.project;
+  }
 
   $scope.add_New_Alert = function(){
     if ($scope.selectDatastore === undefined) {
