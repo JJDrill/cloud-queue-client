@@ -156,6 +156,19 @@ function AlertServices ($http) {
       })
     },
 
+    Update_Alert: function(alert_info){
+      var body = {
+        id: alert_info.id,
+        name: alert_info.name,
+        comparer: alert_info.comparer,
+        value: alert_info.value,
+        enabled: alert_info.enabled
+      }
+      return $http.put(getAPIHost() + '/api/alerts/', body).then(function(result){
+        return result.data;
+      })
+    },
+
     Delete_Alert: function(alert_id){
       return $http.delete(getAPIHost() + '/api/alerts/' + alert_id).then(function(result){
         return result.data;

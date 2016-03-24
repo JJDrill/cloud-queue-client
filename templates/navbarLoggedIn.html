@@ -14,22 +14,23 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <!-- <li class="active"><a href="#/monitor/">Monitor <span class="sr-only">(current)</span></a></li> -->
-        <li><a href="/#/monitor/">Monitor</a></li>
-        <li><a href="/#/configure/">Configure</a></li>
-        <li><a href="/#/alerts/">Alerts</a></li>
+        <li ng-class="{ active: isActive('/monitor/')}"><a href="/#/monitor/">Monitor</a></li>
+        <li ng-class="{ active: isActive('/configure/')}"><a href="/#/configure/">Configure</a></li>
+        <li ng-class="{ active: isActive('/alerts/')}"><a href="/#/alerts/">Alerts</a></li>
       </ul>
-      <div class="pull-right">
+      <div class="pull-right navRightSide">
         <div class="btn-group">
-          <button class="btn btn-default btn-xs dropdown-toggle glyphicon glyphicon-bell" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span>
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle navbarAlertIcon" aria-label="Left Align" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span ng-class="{true:'glyphicon glyphicon-bell alertsColor', false:'glyphicon glyphicon-bell'}[alerts.length > 0]"  aria-hidden="true"></span>
+            <span ng-class="{true:'caret alertsColor', false:'caret'}[alerts.length > 0]"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
-            <li><a ng-click="Clear_Alerts()"><h4>Clear All Alerts</h4></a></li>
+            <li><a ng-click="Clear_Alerts()"><h5>Clear All Alerts</h5></a></li>
             <li role="separator" class="divider"></li>
             <li ng-repeat="alert in alerts track by $index">{{alert}}</li>
           </ul>
         </div>
-        <button ng-click="Logout()" type="submit" class="btn btn-default btn-xs">Logout</button>
+        <button ng-click="Logout()" type="submit" class="btn btn-default btn-xs">  Logout</button>
       </div>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

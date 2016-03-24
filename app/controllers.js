@@ -41,6 +41,14 @@ function LoginController($rootScope, $scope, $location, AuthServices) {
     $rootScope.alerts = []
   }
 
+  $scope.isActive = function (viewLocation) {
+    if ( $location.path().indexOf( viewLocation ) > -1 ) {
+      return true
+    } else {
+      return false
+    }
+  };
+
 }
 
 
@@ -89,6 +97,7 @@ function ConfigureControllerProjects($scope, $stateParams, ProjectServices) {
 
 ConfigureControllerList.$inject = ['$scope', '$stateParams', 'DatastoreServices'];
 function ConfigureControllerList($scope, $stateParams, DatastoreServices) {
+  $scope.showNewStoreForm = false;
 
   DatastoreServices.getDatastoreDetailList($stateParams.project).then( function(results){
     if ($stateParams.project != "") {
@@ -180,10 +189,11 @@ function MonitorController($scope, $stateParams, $rootScope, MetricService, Proj
       }
     }
 
-    // Throw any alerts
-    // for (var i = 0; i < data.Alerts.length; i++) {
-    //   $rootScope.alerts.push(data.Alerts[i])
-    // }
+    // Loop through to get our alerts now
+    for (var i = 0; i < data.Alerts.length; i++) {
+      $rootScope.alerts.push(data.Alerts[i])
+    }
+
     $scope.$apply()
   });
 
@@ -285,6 +295,7 @@ function AlertsController($scope, ProjectServices) {
 
 alertListController.$inject = ['$scope', '$stateParams', 'AlertServices', 'ProjectServices'];
 function alertListController($scope, $stateParams, AlertServices, ProjectServices) {
+  $scope.showNewAlertForm = false;
 
   ProjectServices.Get_Project_Datastores($stateParams.project).then(function(storeList){
     if ($stateParams.project != "" && $stateParams.project != undefined) {
@@ -333,6 +344,18 @@ function alertListController($scope, $stateParams, AlertServices, ProjectService
 
   $scope.delete_Alert = function(alert_id){
     AlertServices.Delete_Alert(alert_id);
+    window.location.reload();
+  }
+
+  $scope.save_Alert_Updates = function(id, name, comparer, value, enabled){
+    var alert_info = {
+      id: id,
+      name: name,
+      comparer: comparer,
+      value: value,
+      enabled: enabled
+    }
+    AlertServices.Update_Alert(alert_info)
     window.location.reload();
   }
 

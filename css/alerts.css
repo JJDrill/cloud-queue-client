@@ -1,0 +1,10 @@
+.alertView {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.alertPanelItem {
+  width: 500px;
+  margin-right: 10px;
+}

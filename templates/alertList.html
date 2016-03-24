@@ -1,36 +1,107 @@
-<form ng-show="show_Add_New_Alert()">
-  <div class="form-group">
-    <h4>Add a New Alert
-      <br>
-      <small>For example: When a datastore is greater than a value of 20.</small>
-    </h4>
-    <select ng-model="selectDatastore"
-            ng-options="store.id as store.Name for store in Store_List">
-    </select>
-    <input type="text" class="form-control" ng-model="newAlertName" placeholder="New Alert Name...">
-    <select ng-model="selectedComparer"
-            ng-options="comparer.Comparer as comparer.Comparer for comparer in Comparer_List">
-    </select>
-    <input type="text" class="form-control" ng-model="newAlertValue" placeholder="New Alert Value...">
-    <button ng-click="add_New_Alert()" type="button" class="btn btn-primary">Add Alert</button>
-  </div>
-</form>
-
-<div ng-repeat="alert in Alert_List">
+<div class="panel panel-default" ng-show="show_Add_New_Alert()">
   <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="form-group">
+        <h5>
+          <a ng-click="showNewAlertForm = !showNewAlertForm">Add New Alert Form
+            <span ng-class="{true:'glyphicon glyphicon-chevron-up', false:'glyphicon glyphicon-chevron-down'}[showNewAlertForm]"></span>
+          </a>
+        </h5>
+      </div>
+      <form ng-show="showNewAlertForm" class="form-horizontal">
+        <div class="form-group form-group-sm">
+          <label for="selectedComparer" class="col-sm-2 control-label">Comparer</label>
+          <div class="col-sm-10">
+            <select ng-model="selectDatastore"
+                    ng-options="store.id as store.Name for store in Store_List">
+            </select>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <label for="newAlertName" class="col-sm-2 control-label">Alert Name</label>
+          <div class="col-sm-10">
+            <!-- <input ng-model="newAlertName" type="text" class="form-control" id="alertName"> -->
+            <input type="text" class="form-control" ng-model="newAlertName" placeholder="New Alert Name...">
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <label for="selectedComparer" class="col-sm-2 control-label">Comparer</label>
+          <div class="col-sm-10">
+            <select ng-model="selectedComparer"
+                    ng-options="comparer.Comparer as comparer.Comparer for comparer in Comparer_List">
+            </select>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <label for="newAlertValue" class="col-sm-2 control-label">Value</label>
+          <div class="col-sm-10">
+            <!-- <input ng-model="alertValue" ng-init="alertValue = alert.Value" type="text" class="form-control" id="alertValue"> -->
+            <input type="text" class="form-control" ng-model="newAlertValue" placeholder="New Alert Value...">
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button ng-click="add_New_Alert()" type="button" class="btn btn-primary">Add Alert</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="alertView">
+  <div ng-repeat="alert in Alert_List" class="alertPanelItem">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3
-          class="panel-title">{{alert.Project_Name}}
-        </h3>
-        <p>{{alert.Store_Name}}</p>
-        <p>Alert Name: {{alert.Name}}</p>
-        <p>Alert ID: {{alert.Alert_ID}}</p>
-        <p>Comparer: {{alert.Comparer}}</p>
-        <p>Value: {{alert.Value}}</p>
-        <p>Enabled: {{alert.Enabled}}</p>
-        <button ng-bootbox-confirm="Are you sure you want to delete the '{{alert.Name}}' alert?" ng-bootbox-confirm-action="delete_Alert(alert.Alert_ID)" class="btn-group btn-danger btn-group-xs" type="button" name="button">Delete Alert</button>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <form class="form-horizontal">
+            <div class="form-group form-group-sm">
+              <label class="col-sm-2 control-label">Datastore</label>
+              <div class="col-sm-9">
+                <p class="form-control-static">{{alert.Store_Name}}</p>
+              </div>
+              <div class="col-sm-1">
+                <p ng-model="alertId" class="form-control-static pull-right">ID:{{alert.Alert_ID}}</p>
+              </div>
+            </div>
+            <div class="form-group form-group-sm">
+              <label for="alertName" class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10">
+                <input ng-model="alertName" ng-init="alertName = alert.Name" type="text" class="form-control" id="alertName">
+              </div>
+            </div>
+            <div class="form-group form-group-sm">
+              <label for="selectedComparer" class="col-sm-2 control-label">Comparer</label>
+              <div class="col-sm-10">
+                <select ng-init="selectedComparer = alert.Comparer"
+                ng-model="selectedComparer"
+                ng-options="comparer.Comparer as comparer.Comparer for comparer in Comparer_List">
+              </select>
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="alertValue" class="col-sm-2 control-label">Value</label>
+            <div class="col-sm-10">
+              <input ng-model="alertValue" ng-init="alertValue = alert.Value" type="text" class="form-control" id="alertValue">
+            </div>
+          </div>
+          <div class="form-group form-group-sm">
+            <div class="col-sm-offset-2 col-sm-4">
+              <div class="checkbox">
+                <label>
+                  <input ng-model="alertEnabled" ng-init="alertEnabled = alert.Enabled" type="checkbox"> Enable Alert
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="pull-right">
+                <button ng-click="save_Alert_Updates(alert.Alert_ID, alertName, selectedComparer, alertValue, alertEnabled)" class="btn-group btn-success btn-group-xs" type="button" name="button">Save Updates</button>
+                <button ng-bootbox-confirm="Are you sure you want to delete the '{{alert.Name}}' alert?" ng-bootbox-confirm-action="delete_Alert(alert.Alert_ID)" class="btn-group btn-danger btn-group-xs" type="button" name="button">Delete Alert</button>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 </div>

@@ -1,42 +1,55 @@
-<div ng-show="show_Add_New_Source()">
+<div class="panel panel-default" ng-show="show_Add_New_Source()">
   <div class="panel panel-default">
-    <form>
-      <div class="form-group">
-        <input type="text" class="form-control" ng-model="newDatastoreName" id="inputSuccess1" placeholder="New Datasource Name...">
-        <button ng-click="add_New_Datastore()" type="button" class="btn btn-primary">Add Datasource</button>
+    <div class="panel-heading">
+      <div class="form-group addNewStoreTitle">
+        <h5>
+          <a ng-click="showNewStoreForm = !showNewStoreForm">Add New Datastore Form
+            <span ng-class="{true:'glyphicon glyphicon-chevron-up', false:'glyphicon glyphicon-chevron-down'}[showNewStoreForm]"></span>
+          </a>
+        </h5>
       </div>
-    </form>
+      <form ng-show="showNewStoreForm" class="form-horizontal">
+        <div class="form-group form-group-sm">
+          <div class="col-sm-10">
+            <input type="text" class="form-control newDatastoreName" ng-model="newDatastoreName" id="newDatastoreName" placeholder="New Datasource Name...">
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-sm-10">
+            <button ng-click="add_New_Datastore()" type="button" class="btn btn-primary btn-md">Save New Datasource</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
 
-  <div ng-repeat="data in dsDetailList">
+<div ng-show="show_Add_New_Source()" class="configurePanel">
+  <div ng-repeat="data in dsDetailList" class="configureCard">
     <div class="panel panel-default">
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3
-          class="panel-title">{{data.Name}}
-        </h3>
-      </div>
-      <div class="panel-body">
-        <span class="pull-right">
-          <button class="btn-group btn-danger btn-group-xs" ng-bootbox-confirm="Are you sure you want to delete the '{{data.Name}}' datasource?" ng-bootbox-confirm-action="delete_Datastore(data.id)" type="button" name="buttonDelete">Delete</button>
-        </span>
-        <p>
-          ID: {{data.id}}
-        </p>
-        <p>
-          Type: {{data.Type_ID}}
-        </p>
-        <div ng-repeat="action in data.Actions">
-          <div class="panel-body">
-            <p>Name: {{action.Name}}</p>
-            <p>Verb: {{action.Verb}}</p>
-            <p>{{action.Url}}</p>
-          </div>
+          <span class="panel-title">{{data.Name}}</span>
+          <span class="pull-right">{{data.Type_ID}}</span>
+        </div>
+        <div class="panel-body">
+          <span class="pull-right">
+            <button class="btn-group btn-danger btn-group-xs" ng-bootbox-confirm="Are you sure you want to delete the '{{data.Name}}' datasource?" ng-bootbox-confirm-action="delete_Datastore(data.id)" type="button" name="buttonDelete">Delete</button>
+          </span>
+          <h4>Available Actions</h4>
+          <table class="table table-hover">
+            <tr ng-repeat="action in data.Actions">
+              <td class="actionNameTableData">{{action.Name}}</td>
+              <td class="actionVerbTableData"><span class="actionVerb">{{action.Verb}}</span></td>
+              <td>
+                {{action.Url}}
+                <button ngclipboard data-clipboard-text="{{action.Url}}" class="glyphicon glyphicon-copy copyButton pull-right" type="button" name="button" title="Copy URL to clipboard"></button>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
-    </div>
-
     </div>
   </div>
 </div>

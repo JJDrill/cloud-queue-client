@@ -1,3 +1,8 @@
+.navRightSide {
+  display: flex;
+  padding-top: 9px;
+}
+
 .projectListItem {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -8,4 +13,12 @@
 
 .projectListItemText {
   padding-left: 5px;
+}
+
+.navbarAlertIcon {
+  margin-right: 10px;
+}
+
+.alertsColor {
+  color: orange;
 }

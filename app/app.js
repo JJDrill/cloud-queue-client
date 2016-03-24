@@ -1,4 +1,4 @@
-angular.module('DataNexus', ['ui.router', 'nvd3', 'ngBootbox'])
+angular.module('DataNexus', ['ui.router', 'nvd3', 'ngBootbox', 'ngclipboard'])
   .config(function($stateProvider, $urlRouterProvider){
 
     $urlRouterProvider.otherwise('/');
